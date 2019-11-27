@@ -14,6 +14,15 @@
           </small>
         </footer>
       </blockquote>
+      <blockquote class="blockquote">
+        &#8220;Programs must be written for people to read, and only incidentally for machines to execute.
+        <footer>
+          <small>
+            <em>&mdash;Harold Abelson</em>
+          </small>
+        </footer>
+      </blockquote>
     </v-flex>
   </v-layout>
 </template>
+scrip

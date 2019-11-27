@@ -1,0 +1,46 @@
+image: docker:18
+
+stages:
+  - lint
+  - test
+  - release
+  - deploy
+
+lint:
+  stage: lint
+  image: node:10-alpine
+  before_script:
+    - npm install --progress=false
+  script:
+    - npm run lint
+
+test:
+  stage: test
+  image: node:10-alpine
+  before_script:
+    - npm install --progress=false
+  script:
+    - npm run test:unit
+
+release:
+  stage: release
+  variables:
+    DOCKER_DRIVER: "overlay"
+  only:
+    - "master"
+  before_script:
+    - ./deploy/docker_login.sh
+  script:
+    - ./deploy/build_image.sh
+  after_script:
+    - ./deploy/docker_logout.sh
+
+#deploy:
+#   stage: deploy
+#   image: gitlab/dind:latest
+#   services:
+#     - docker:dind
+#   before_script:
+#     - apt-get update -y && apt-get install sshpass
+#   script:
+#     - ./deploy/pull_and_restart.sh

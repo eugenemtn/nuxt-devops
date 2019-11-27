@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  nuxt:
+    build: ./app/
+    container_name: nuxt-test-website
+    restart: always
+    ports:
+      - "3333:3333"
+    command:
+      "npm run start"
+
+  nginx:
+    image: nginx:stable
+    container_name: nuxt-test-website
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - nuxt
