@@ -1,18 +1,9 @@
 image: docker:18
 
 stages:
-  - lint
   - test
   - release
   - deploy
-
-lint:
-  stage: lint
-  image: node:10-alpine
-  before_script:
-    - npm install --progress=false
-  script:
-    - npm run lint
 
 test:
   stage: test
@@ -20,7 +11,7 @@ test:
   before_script:
     - npm install --progress=false
   script:
-    - npm run test:unit
+    - npm run test
 
 release:
   stage: release
@@ -35,12 +26,12 @@ release:
   after_script:
     - ./deploy/docker_logout.sh
 
-#deploy:
-#   stage: deploy
-#   image: gitlab/dind:latest
-#   services:
-#     - docker:dind
-#   before_script:
-#     - apt-get update -y && apt-get install sshpass
-#   script:
-#     - ./deploy/pull_and_restart.sh
+deploy:
+   stage: deploy
+   image: gitlab/dind:latest
+   services:
+     - docker:dind
+   before_script:
+     - apt-get update -y && apt-get install sshpass
+   script:
+     - ./deploy/pull_and_restart.sh
