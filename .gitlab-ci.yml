@@ -1,4 +1,4 @@
-image: docker:18
+image: docker:19
 
 stages:
   - test
@@ -15,9 +15,6 @@ stages:
 
 release:
   stage: release
-  image: gitlab/dind:latest
-  variables:
-    DOCKER_DRIVER: "overlay"
   only:
     - "master"
   before_script:
